@@ -1,0 +1,45 @@
+#Environments Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Results and output files
+results/
+*.mp4
+*.avi
+*.mov
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
