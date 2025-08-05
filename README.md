@@ -1,200 +1,339 @@
-# Object Detection System
+# YOLO Object Detection System
 
-A modular object detection system using YOLO for real-time tracking and detection with advanced model management.
+A highly optimized, modular system for object detection and tracking using YOLO models. The system features cross-platform GPU/CPU acceleration, real-time tracking, and a comprehensive model management system.
+
+![YOLO Object Detection](https://img.shields.io/badge/YOLO-v11-brightgreen)
+![Platform](https://img.shields.io/badge/Platform-Cross--Platform-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+## Overview
+
+This system provides a complete end-to-end solution for object detection and tracking in videos using state-of-the-art YOLO models. It features automatic device optimization, interactive model selection, and real-time performance monitoring.
 
 ## Project Structure
 
 ```
 object_detection/
 ├── app/
-│   ├── main.py                    # Main application entry point
-│   ├── main_with_selector.py      # Enhanced app with interactive model selection
-│   ├── config.py                  # Configuration settings
-│   ├── object_detction.py         # Original monolithic file (kept for reference)
-│   ├── utils/                     # Utility modules
-│   │   ├── __init__.py            # Package initialization
-│   │   ├── device_manager.py      # GPU/CPU device detection and management
-│   │   ├── file_validator.py      # File existence and validation utilities
-│   │   ├── video_processor.py     # Video processing and tracking logic
-│   │   ├── object_detector.py     # YOLO model loading and detection
-│   │   ├── model_store.py         # Model management and selection system
+│   ├── main.py                    # Standard application entry point
+│   ├── main_with_selector.py      # Enhanced app with model selection UI
+│   ├── config.py                  # Centralized configuration settings
+│   ├── utils/                     # Modular utility components
+│   │   ├── device_manager.py      # Cross-platform GPU/CPU optimization
+│   │   ├── file_validator.py      # File and directory validation
+│   │   ├── video_processor.py     # Video handling and visualization
+│   │   ├── object_detector.py     # YOLO model integration
+│   │   ├── model_store.py         # Model catalog and selection system
 │   │   └── model_manager.py       # Standalone model management utility
-│   ├── model/                     # YOLO model files
-│   └── media/                     # Media files (videos, images)
-├── results/                       # Output results (auto-generated)
-│   └── DDMMYYYY-HHMMSS/          # Timestamped folders
-│       ├── output_result.mp4      # Processed video
-│       └── processing_info.txt    # Processing metadata
+│   ├── model/                     # YOLO model storage
+│   └── media/                     # Input video files
+├── results/                       # Processed outputs (auto-generated)
+│   └── DDMMYYYY-HHMMSS/          # Timestamped result folders
+│       ├── result.mp4             # Processed video with annotations
+│       └── processing_info.txt    # Performance metadata and stats
 ├── requirements.txt               # Python dependencies
-└── LICENSE
+└── LICENSE                        # Project license
 ```
 
-## Features
+## Key Features
 
-- **Modular Design**: Separated concerns into dedicated modules
-- **Cross-Platform**: Automatic device detection (CUDA, MPS, CPU)
-- **Object Tracking**: Real-time object tracking with ByteTrack
-- **Progress Monitoring**: Real-time FPS and progress reporting
-- **Timestamped Results**: Automatic creation of timestamped result folders
-- **Directory Validation**: Automatic validation and creation of required directories
-- **Interactive Model Selection**: Choose from multiple YOLO models with detailed specs
-- **Model Management**: Comprehensive model store with performance metrics
-- **Smart Recommendations**: Get model suggestions based on your use case
-- **Processing Metadata**: Saves processing information alongside video output
-- **Error Handling**: Robust error handling with fallback options
-- **Configurable**: Easy configuration through config.py
+### Performance & Compatibility
+- **Cross-Platform Acceleration**: Automatic detection of CUDA (NVIDIA), MPS (Apple Silicon), or CPU
+- **Real-time Processing**: Optimized for speed with performance metrics display
+- **Smart Device Management**: Memory optimization and GPU resource handling
 
-## Output Structure
+### Detection & Tracking
+- **Advanced Object Detection**: High-accuracy YOLOv11 model integration
+- **Real-time Tracking**: Object tracking with ByteTrack algorithm
+- **Motion Path Visualization**: Trajectory lines showing object movement paths
 
-Each run creates a timestamped folder in the format `DDMMYYYY-HHMMSS`:
+### User Experience
+- **Interactive Model Selection**: Visual interface for choosing optimal models
+- **Use-Case Recommendations**: AI model recommendations based on specific needs
+- **Progress Monitoring**: Live FPS and percentage completion updates
+- **Timestamped Results**: Automatically organized output with metadata
+
+### Architecture
+- **Modular Design**: Clean separation of concerns for maintainability
+- **Robust Error Handling**: Automatic fallbacks and recovery mechanisms
+- **Centralized Configuration**: Easy customization through config.py
+
+## Output System
+
+Each detection run creates a timestamped output directory for organization and reproducibility:
 
 ```
 results/
 ├── 05082025-143022/           # Example: Aug 5, 2025 at 14:30:22
-│   ├── output_result.mp4      # Processed video with detections
-│   └── processing_info.txt    # Processing metadata and statistics
-└── 05082025-151445/           # Another run
-    ├── output_result.mp4
+│   ├── result.mp4             # Processed video with detection annotations
+│   └── processing_info.txt    # Performance data and processing statistics
+└── 05082025-151445/           # Subsequent run with different timestamp
+    ├── result.mp4
     └── processing_info.txt
 ```
 
-## Model Management
+The processing info file contains valuable metadata:
+- Processing timestamp
+- Total frames processed
+- Processing duration
+- Average FPS achieved
+- Output paths and configurations
 
-### Available Models
+## Model Ecosystem
 
-The system supports multiple YOLO model variants:
+The system provides access to a diverse range of YOLO models to suit different requirements and hardware constraints.
 
-#### YOLOv11 Detection Models
-- **Nano (N)**: `yolo11n.pt` - 5.1MB, fastest inference
-- **Small (S)**: `yolo11s.pt` - 19.8MB, balanced performance (default)
-- **Medium (M)**: `yolo11m.pt` - 50.5MB, better accuracy
-- **Large (L)**: `yolo11l.pt` - 85.8MB, high accuracy  
-- **Extra Large (X)**: `yolo11x.pt` - 140.4MB, highest accuracy
+### Detection Models (Primary)
 
-#### Other Model Types
-- **Classification**: YOLOv11 models for image classification
-- **Segmentation**: YOLOv11 models for instance segmentation
-- **Pose Estimation**: YOLOv11 models for human pose detection
-- **Legacy**: YOLOv10 and YOLOv8 models
+| Model | Size | Performance | GPU Speed | CPU Speed | Best For |
+|-------|------|------------|-----------|-----------|----------|
+| **YOLOv11n** | 5.1MB | mAP 39.5 | 0.5ms | 2.4ms | Mobile devices, real-time applications |
+| **YOLOv11s** | 19.8MB | mAP 47.0 | 0.7ms | 8.1ms | General use, balanced (default) |
+| **YOLOv11m** | 50.5MB | mAP 51.5 | 1.2ms | 18.4ms | Better accuracy needs |
+| **YOLOv11l** | 85.8MB | mAP 53.4 | 1.8ms | 27.6ms | High accuracy requirements |
+| **YOLOv11x** | 140.4MB | mAP 54.7 | 2.8ms | 49.2ms | Maximum precision needs |
 
-### Model Selection Strategies
+### Additional Model Types
 
-1. **Speed Priority**: Use Nano (N) for real-time applications
-2. **Balanced**: Use Small (S) for general purposes (recommended)
-3. **Accuracy Priority**: Use Large (L) or Extra Large (X) for best results
-4. **Resource Constrained**: Use Nano (N) or Small (S)
+The system also supports specialized YOLO models for various computer vision tasks:
+
+- **Classification Models**: Image classification (`yolo11*-cls.pt`)
+- **Segmentation Models**: Instance segmentation (`yolo11*-seg.pt`)
+- **Pose Estimation**: Human pose detection (`yolo11*-pose.pt`)
+- **Legacy Models**: Support for YOLOv10 and YOLOv8
+
+### Selection Strategy Guide
+
+- **Speed Priority**: Choose Nano (N) for fastest processing
+- **Balanced Performance**: Use Small (S) for general applications 
+- **Accuracy Focus**: Select Large (L) or Extra Large (X)
+- **Resource Constrained**: Opt for Nano (N) or Small (S)
+- **Special Tasks**: Use task-specific models for classification, segmentation or pose
 
 ## Installation
 
-1. Install dependencies:
+### Prerequisites
+
+- Python 3.8+ required
+- CUDA-compatible NVIDIA GPU recommended for optimal performance
+- Apple Silicon Mac for MPS acceleration support
+- For CPU-only, no special hardware required
+
+### Method 1: Using pip
+
 ```bash
+# Clone the repository
+git clone https://github.com/universe45/object_detection.git
+cd object_detection
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-2. Models will be automatically downloaded when first used
-3. Place your test video in the appropriate path (configurable in `config.py`)
+### Method 2: Using Conda (Recommended)
 
-## Usage
+```bash
+# Clone the repository
+git clone https://github.com/universe45/object_detection.git
+cd object_detection
 
-### Interactive Model Selection (Recommended):
+# Create and activate Conda environment
+conda create -n object_detection python=3.11
+conda activate object_detection
+
+# Install core dependencies
+conda install -c pytorch pytorch torchvision
+conda install -c conda-forge opencv numpy
+conda install -c conda-forge colorama
+
+# Install ultralytics (not available in conda)
+pip install ultralytics
+```
+
+### GPU Acceleration Setup
+
+#### For NVIDIA GPUs:
+```bash
+# Install PyTorch with CUDA support
+conda install pytorch torchvision pytorch-cuda=11.8 -c pytorch -c nvidia
+```
+
+#### For Apple Silicon (M1/M2/M3):
+```bash
+# MPS acceleration is included with PyTorch 2.0+
+# No additional setup required
+```
+
+### Post-Installation
+- Models will be automatically downloaded when first used
+- Place input videos in `app/media/` directory
+- Configuration can be customized in `app/config.py`
+
+## Usage Guide
+
+### Running the Application
+
+#### Interactive Mode (Recommended)
+
+Launch the application with an interactive model selection interface:
+
 ```bash
 cd app
 python main_with_selector.py
 ```
 
-### Model Management Utility:
-```bash
-cd app
-python utils/model_manager.py
-```
+This mode provides:
+- Visual selection from all available models
+- Model recommendations based on use case
+- Detailed model specifications display
+- Performance metrics for informed decision making
 
-### Standard Application:
+#### Standard Mode
+
+Run with the default model specified in config:
+
 ```bash
 cd app
 python main.py
 ```
 
-### Test directory validation:
+#### Model Management Utility
+
+Access the standalone model management tool:
+
 ```bash
 cd app
-python test_directory.py
+python utils/model_manager.py
 ```
 
-### Use individual modules:
+### Customization
+
+#### 1. Quick Model Switching
+
+Edit `app/config.py` to quickly change the default model:
+
+```python
+# Change this line to switch default model size
+Config.DEFAULT_MODEL_SIZE = "L"  # N, S, M, L, X
+
+# Or use the helper method
+model_path = Config.get_model_by_size("M")
+```
+
+#### 2. API Usage
+
+Integrate into your own Python applications:
+
 ```python
 from utils import ObjectDetector, VideoProcessor, get_device, ModelSelector
 from config import Config
 
-# Model selection
+# Select model interactively or programmatically
 selector = ModelSelector()
 model_path = selector.select_model_interactive()
+# Or: model_path = selector.recommend_model("accuracy")
 
-# Initialize components
-device = get_device()
+# Initialize components with hardware optimization
+device = get_device()  # Automatically selects CUDA, MPS, or CPU
 detector = ObjectDetector(model_path)
 detector.load_model(device)
 
+# Set up video processing pipeline
 processor = VideoProcessor(Config.OUTPUT_FILENAME, Config.RESULTS_BASE_DIR)
-# ... process video
+
+# Process video frames (simplified)
+while True:
+    success, frame = processor.read_frame()
+    if not success:
+        break
+    
+    # Detect objects and visualize tracks
+    results = detector.detect_objects(frame, conf_threshold=0.5)
+    annotated_frame = processor.process_frame_with_tracking(frame, results)
+    processor.write_frame(annotated_frame)
 ```
-
-### Quick Model Change in Config:
-```python
-# In config.py, simply change the model size:
-Config.DEFAULT_MODEL_SIZE = "L"  # N, S, M, L, X
-# Or use the helper method:
-model_path = Config.get_model_by_size("M")
-```
-
-## Model Performance Comparison
-
-| Model | Size | mAP50-95 | GPU Speed | CPU Speed | Best For |
-|-------|------|----------|-----------|-----------|----------|
-| Nano  | 5.1MB | 39.5 | 0.5ms | 2.4ms | Real-time, mobile |
-| Small | 19.8MB | 47.0 | 0.7ms | 8.1ms | General purpose |
-| Medium | 50.5MB | 51.5 | 1.2ms | 18.4ms | Better accuracy |
-| Large | 85.8MB | 53.4 | 1.8ms | 27.6ms | High accuracy |
-| X-Large | 140.4MB | 54.7 | 2.8ms | 49.2ms | Maximum accuracy |
 
 ## Configuration
 
-Edit `app/config.py` to modify:
-- File paths
-- Detection thresholds
-- Tracking parameters
-- Video processing settings
+The system is designed to be highly configurable through the `app/config.py` file:
 
-## Modules
+```python
+class Config:
+    # File paths
+    MODEL_PATH = f"model/yolo11s.pt"      # Default model
+    VIDEO_PATH = "media/video_file.mp4"    # Input video
+    OUTPUT_FILENAME = "result.mp4"         # Output filename
+    RESULTS_BASE_DIR = "results"           # Results directory
 
-### `device_manager.py`
-- Automatic device detection (CUDA/MPS/CPU)
-- GPU memory management
-- Cross-platform compatibility
+    # Detection parameters
+    CONFIDENCE_THRESHOLD = 0.5             # Detection confidence threshold
+    TRACKER_CONFIG = "bytetrack.yaml"      # Tracking algorithm config
+    MAX_TRACK_HISTORY = 30                 # Tracking history length
 
-### `file_validator.py`
-- File existence validation
-- Format validation for models and videos
-- Error reporting
+    # Visual settings
+    LINE_WIDTH = 2                         # Bounding box line width
+    FONT_SIZE = 0.5                        # Text font size
+    TRACK_LINE_COLOR = (230, 230, 230)     # Tracking line color
+    
+    # Performance settings
+    PROGRESS_LOG_INTERVAL = 1              # Progress logging frequency
+```
 
-### `video_processor.py`
-- Video capture and writing
-- Object tracking visualization
-- Frame processing pipeline
+## System Architecture
 
-### `object_detector.py`
-- YOLO model loading and management
-- Object detection and tracking
-- Configurable detection parameters
+### Core Components
 
-### `config.py`
-- Centralized configuration
-- Easy parameter tuning
-- Default settings
+#### 1. Device Manager (`device_manager.py`)
+- Auto-detects optimal hardware (NVIDIA CUDA, Apple MPS, CPU)
+- Platform-specific optimizations for Windows, macOS, Linux
+- GPU memory management for efficient resource utilization
 
-## Benefits of Modular Structure
+#### 2. Object Detector (`object_detector.py`)
+- YOLO model integration with ultralytics framework
+- Configurable detection parameters and thresholds
+- Object tracking with ByteTrack algorithm
 
-1. **Maintainability**: Each module has a single responsibility
-2. **Reusability**: Components can be used independently
-3. **Testing**: Easier to unit test individual components
-4. **Scalability**: Easy to add new features or modify existing ones
-5. **Readability**: Cleaner, more organized code structure
+#### 3. Video Processor (`video_processor.py`)
+- Video capture and frame extraction
+- Real-time tracking visualization
+- Results storage with performance metadata
+
+#### 4. Model Store (`model_store.py`)
+- Comprehensive model catalog with performance metrics
+- Selection interface with recommendations
+- Auto-download capability for missing models
+
+#### 5. File Validator (`file_validator.py`)
+- Validates input files and formats
+- Creates directory structures
+- Ensures proper permissions and access
+
+## Development and Extension
+
+### Modular Architecture Benefits
+
+The system is built with a modular architecture providing several advantages:
+
+1. **Independent Components**: Each module can be used separately
+2. **Simplified Testing**: Unit testing is straightforward with isolated components
+3. **Easy Extension**: Add new features without affecting existing functionality
+4. **Clear Responsibility**: Each module has a single well-defined purpose
+5. **Maintainable Code**: Changes in one area don't affect others
+
+### Extension Points
+
+The system can be extended in various ways:
+
+- **Custom Models**: Add new YOLO or custom models to the model store
+- **New Tracking Algorithms**: Integrate different tracking approaches
+- **Additional Visualizations**: Enhance the visual output with new features
+- **Alternative Backends**: Integrate with other ML frameworks beyond ultralytics
+- **Cloud Integration**: Add cloud storage or processing capabilities
+
+## Performance Tips
+
+- Use GPU acceleration when available for optimal performance
+- Select model size based on your specific performance/accuracy needs
+- For real-time applications, use Nano or Small models
+- For maximum accuracy without time constraints, use Large or X-Large models
+- Adjust confidence threshold based on specific detection scenarios
