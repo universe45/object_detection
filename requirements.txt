@@ -1,0 +1,15 @@
+# Core dependencies
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.21.0
+
+# Visualization and logging
+colorama>=0.4.4
+
+# Optional: for CUDA support (install separately based on your system)
+# torch with CUDA: https://pytorch.org/get-started/locally/
+
+# Optional: for Apple Silicon MPS support
+# torch with MPS support is included in torch>=1.12.0
